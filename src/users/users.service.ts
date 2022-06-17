@@ -21,6 +21,12 @@ export class UsersService {
             username: 'mark',
             fullname: 'Mark Zukeberg',
             password: '654321'
+        },
+        {
+            userId: 3,
+            username: 'master',
+            fullname: 'Grand Master',
+            password: 'xx11xx'
         }
     ];
 
