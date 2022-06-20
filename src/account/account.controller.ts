@@ -1,13 +1,24 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { AccountService } from './account.service';
 import { CreateAccountDTO } from './dto/create.account.dto';
+import { Account } from './entities/account.entity';
 
 @Controller('account')
-@ApiTags('account')
+@ApiTags('accounts')
 export class AccountController {
     constructor(private accountService: AccountService) {}
+
+
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @ApiResponse({status: 200, type: [Account], description: 'account list'})
+    @ApiResponse({ status: 401, description: 'jwt token invalid to this payload'})
+    @Get()
+    async list() {
+        return this.accountService.list();
+    }
 
     @UseGuards(JwtAuthGuard)
     @ApiBody({type: CreateAccountDTO})

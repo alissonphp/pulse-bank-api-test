@@ -15,6 +15,10 @@ export class AccountService {
         private usersService: UsersService
     ) { }
 
+    async list(): Promise<Account[]> {
+        return this.accountRepository.find();
+    }
+
     async store(data: CreateAccountDTO, user: User): Promise<Response> {
 
         const acc = new Account();
