@@ -15,11 +15,12 @@ import { JwtStrategy } from './jwt.strategy';
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: {
-        expiresIn: '60m'
+        expiresIn: '60 minutes'
       }
     })
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
+  exports: [AuthService]
 })
 export class AuthModule {}

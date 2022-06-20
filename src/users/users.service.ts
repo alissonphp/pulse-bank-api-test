@@ -1,36 +1,47 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
-export type User = {
-    userId: number;
-    username: string;
-    fullname: string;
-    password: string;
-}
+import { User } from './entities/user.entity';
+import { CreateUserDTO } from './dto/create.user.dto';
+
 
 @Injectable()
 export class UsersService {
-    private readonly users: User[] = [
-        {
-            userId: 1,
-            username: 'john',
-            fullname: 'John Due',
-            password: '123456'
-        },
-        {
-            userId: 2,
-            username: 'mark',
-            fullname: 'Mark Zukeberg',
-            password: '654321'
-        },
-        {
-            userId: 3,
-            username: 'master',
-            fullname: 'Grand Master',
-            password: 'xx11xx'
-        }
-    ];
 
-    async findOne(username: string): Promise<User | undefined> {
-        return this.users.find(user => user.username === username);
+    constructor(
+        @InjectRepository(User)
+        private userRepository: Repository<User>,
+    ) { }
+
+    async findOne(email: string): Promise<User | undefined> {
+        return this.userRepository.findOneOrFail({
+            where: {
+                email
+            },
+            select: ['id', 'username', 'fullname', 'password']
+        })
     }
+
+    async findOneByUsername(username: string): Promise<User | undefined> {
+        return this.userRepository.findOneOrFail({
+            where: {
+                username
+            }
+        })
+    }
+
+    async store(body: CreateUserDTO): Promise<User> {
+        const hash = bcrypt.hashSync(body.password, 12);
+        const user = new User();
+        user.username = body.username;
+        user.email = body.email;
+        user.password = hash;
+        user.fullname = body.fullname;
+        return this.userRepository.save(user);
+    }
+
+
+
 }
