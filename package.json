@@ -2,9 +2,12 @@
   "name": "pulse-bank-api-test",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Alisson Gomes",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "16.14.2"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
