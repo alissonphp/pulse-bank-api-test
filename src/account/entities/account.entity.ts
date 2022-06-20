@@ -21,6 +21,7 @@ export class Account {
     @Column({name: 'balance', type: 'decimal'})
     balance: number;
 
+    @ApiProperty({ type: [Movement]})
     @OneToMany(() => Movement, (movement) => movement.account, {cascade: true})
     movements: Movement[]
 

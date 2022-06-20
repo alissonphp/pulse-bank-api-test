@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { MovementType } from '../enums/movement.type';
 import { Account } from './account.entity';
@@ -5,15 +6,19 @@ import { Account } from './account.entity';
 
 @Entity()
 export class Movement {
-    @PrimaryGeneratedColumn('uuid', {name: 'id'})
+
+    @PrimaryGeneratedColumn('uuid', { name: 'id' })
     id: string;
 
     @ManyToOne(() => Account, (account) => account.movements)
     account: Account
 
-    @Column({type: 'enum', enum: MovementType, default: MovementType.TRANSFER})
+    @Column({ type: 'enum', enum: MovementType, default: MovementType.TRANSFER })
     type: MovementType
 
-    @Column({type: 'decimal', default: 0})
+    @Column({ type: 'decimal', default: 0 })
     total: number;
+
+    @Column({ type: 'text' })
+    description: string;
 }
