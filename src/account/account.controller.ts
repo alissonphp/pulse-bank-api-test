@@ -29,4 +29,14 @@ export class AccountController {
     async store(@Body() body: CreateAccountDTO, @Request() req) {
         return this.accountService.store(body, req.user);
     }
+
+    @UseGuards(JwtAuthGuard)
+    @ApiBody({type: CreateAccountDTO})
+    @ApiBearerAuth()
+    @ApiResponse({status: 201, description: 'transfer finished'})
+    @ApiResponse({ status: 401, description: 'jwt token invalid to this payload'})
+    @Post('/transfer')
+    async transfer(@Body() body: CreateAccountDTO, @Request() req) {
+        return this.accountService.transfer(body, req.user);
+    }
 }
