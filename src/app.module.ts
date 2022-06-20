@@ -20,7 +20,12 @@ import { AccountModule } from './account/account.module';
       password: process.env.DATABASE_PASS,
       database: process.env.DATABASE_DB,
       autoLoadEntities: true,
-      synchronize: true
+      synchronize: true,
+      extra: {
+        ssl: {
+          rejectUnauthorized: false
+        }
+      }
     }),
     AccountModule
   ],
