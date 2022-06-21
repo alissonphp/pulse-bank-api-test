@@ -3,7 +3,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
+
   const config = new DocumentBuilder()
     .setContact('@alissongomes', 'https://linkedin.com/in/alissongomesweb', 'alisson.gomes@grupomateus.com')
     .addBearerAuth()
